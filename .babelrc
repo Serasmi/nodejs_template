@@ -1,0 +1,26 @@
+{
+  "presets": [
+    [
+      "env",
+      {
+        "targets": {
+          "node": true
+        }
+      }
+    ]
+  ],
+  "plugins": [
+    [
+      "module-resolver",
+      {
+        "root": ["./src", "./config"],
+        "alias": {
+          "~": "./src",
+          "middleware": "./src/middleware",
+          "routes": "./src/routes",
+          "utils": "./src/utils"
+        }
+      }
+    ]
+  ]
+}

@@ -1,0 +1,19 @@
+version: '3.7'
+services:
+  db:
+    image: postgres:12.3-alpine
+    container_name: mydebt_postgres
+    restart: unless-stopped
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_PASSWORD: changeme
+    volumes:
+      - my_dbdata:/var/lib/postgresql/data
+      - ./scripts/init.sql:/docker-entrypoint-initdb.d/01-init.sql
+      - ./scripts/roles_table.sql:/docker-entrypoint-initdb.d/02-roles_table.sql
+      - ./scripts/users_table.sql:/docker-entrypoint-initdb.d/03-users_table.sql
+      - ./scripts/fill_tables.sql:/docker-entrypoint-initdb.d/04-fill_tables.sql
+
+volumes:
+  my_dbdata:
