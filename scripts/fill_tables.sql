@@ -1,7 +1,7 @@
-\c mydebt;
+\c node_template;
 
 -- Create roles
 insert into roles (name) values ('admin'), ('user');
 
 -- Create users
-insert into users (name, role) values ('admin', 1), ('zoomer', 1), ('serasmi', 2);
+insert into users (login, name, password, role) values ('admin', 'Admin', 'admin', 1), ('user', 'User', 'user', 2);
