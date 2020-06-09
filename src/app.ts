@@ -4,12 +4,16 @@ import cookieParser from 'cookie-parser';
 import logger from 'morgan';
 import { Server } from 'http';
 
-import routes from 'routes';
-import restRoutes from 'routes/rest';
+import routes from '@/routes';
+import restRoutes from '@routes/rest';
 
-const configureApp = async (resolve, reject) => {
+interface IResolve {
+  server: any;
+}
+
+const configureApp = async (resolve: (arg0: IResolve) => void, reject: Function) => {
   const app = express();
-  const server = Server(app);
+  const server = new Server(app);
 
   app.use(logger('dev'));
   app.use(express.json());

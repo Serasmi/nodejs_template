@@ -1,3 +1,7 @@
+require('@babel/register')({
+  extensions: ['.es6', '.es', '.jsx', '.js', '.mjs', '.ts'],
+});
+
 import config from 'config';
 
 import ip from 'ip';

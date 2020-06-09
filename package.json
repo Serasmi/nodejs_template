@@ -6,18 +6,18 @@
     "npm": ">= 5.0.0"
   },
   "license": "ISC",
+  "main": "dist/index.js",
   "name": "nodejs-template",
   "private": true,
   "version": "0.0.1",
   "scripts": {
     "build": "cross-env NODE_ENV=production cross-env BABEL_ENV=server babel src -d dist --copy-files",
-    "dev": "cross-env NODE_ENV=development cross-env BABEL_ENV=server nodemon src --exec babel-node --watch src --watch config -e js,sql,json",
+    "dev": "cross-env NODE_ENV=development cross-env BABEL_ENV=server nodemon --exec babel-node src/register.ts --exec babel-node --watch src --watch config -e js,sql,json,ts",
     "start": "node dist",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
     "@babel/runtime": "^7.10.2",
-    "babel-preset-env": "^1.7.0",
     "body-parser": "^1.19.0",
     "config": "^3.3.1",
     "cookie-parser": "^1.4.5",
@@ -32,6 +32,14 @@
     "@babel/node": "^7.10.1",
     "@babel/plugin-proposal-object-rest-spread": "^7.10.1",
     "@babel/plugin-transform-runtime": "^7.10.1",
+    "@babel/preset-env": "^7.10.2",
+    "@babel/preset-typescript": "^7.10.1",
+    "@babel/register": "^7.10.1",
+    "@types/config": "0.0.36",
+    "@types/cookie-parser": "^1.4.2",
+    "@types/express": "^4.17.6",
+    "@types/ip": "^1.1.0",
+    "@types/morgan": "^1.9.0",
     "babel-eslint": "^10.1.0",
     "babel-plugin-module-resolver": "^4.0.0",
     "cross-env": "^7.0.2",
@@ -40,6 +48,7 @@
     "eslint-plugin-import": "^2.21.1",
     "eslint-plugin-node": "^11.1.0",
     "nodemon": "^2.0.4",
-    "prettier": "^2.0.5"
+    "prettier": "^2.0.5",
+    "typescript": "^3.9.5"
   }
 }

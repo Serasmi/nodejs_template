@@ -7,10 +7,10 @@ function resolve(dir) {
 module.exports = {
   resolve: {
     alias: {
-      '~': resolve('src'),
-      middleware: resolve('/src/middleware'),
-      routes: resolve('/src/routes'),
-      utils: resolve('/src/utils'),
+      '@': resolve('src'),
+      '@middleware': resolve('/src/middleware'),
+      '@routes': resolve('/src/routes'),
+      '@utils': resolve('/src/utils'),
     },
   },
 };
