@@ -1,7 +1,3 @@
-require('@babel/register')({
-  extensions: ['.es6', '.es', '.jsx', '.js', '.mjs', '.ts'],
-});
-
 import config from 'config';
 
 import ip from 'ip';
@@ -12,7 +8,7 @@ const PORT = config.get('PORT');
 const address = ip.address();
 
 appPromise
-  .then(({ server: app }) => app.listen(PORT, () => console.log(`> Listening at http://${address}:${PORT}\n`)))
+  .then(({ server }) => server.listen(PORT, () => console.log(`> Listening at http://${address}:${PORT}\n`)))
   .catch((e) => {
     console.error(e);
     console.error("Can't start server");
