@@ -6,4 +6,4 @@ const router = Router();
 
 router.use('/login', login);
 
-export default router;
+module.exports = router;

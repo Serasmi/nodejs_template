@@ -2,8 +2,8 @@ import { Router } from 'express';
 
 const router = Router();
 
-/* GET user listing. */
-router.get('/', function (req, res, next) {
+/* GET users listing. */
+router.get('/', function (req, res /*, next*/) {
   res.send('login response');
 });
 
