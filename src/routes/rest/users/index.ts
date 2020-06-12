@@ -11,7 +11,7 @@ const router = Router();
 
 const queries = getSQLQueries(__dirname);
 
-/* GET list of users. */
+/* Get users. */
 router.get(
   '/',
   asyncMiddleware(async (req, res /*, next*/) => {
@@ -21,7 +21,7 @@ router.get(
   })
 );
 
-/* GET one users. */
+/* Get user. */
 router.get(
   '/:id',
   asyncMiddleware(async (req, res /*, next*/) => {
@@ -32,7 +32,7 @@ router.get(
   })
 );
 
-/* GET one users. */
+/* Create user. */
 router.post(
   '/',
   checkParamsMiddleware(config.add.fields!),
@@ -52,6 +52,17 @@ router.post(
 
     res.status(201);
     res.json({ data: { id, login, name, role } });
+  })
+);
+
+/* Delete user. */
+router.delete(
+  '/:id',
+  asyncMiddleware(async (req, res /*, next*/) => {
+    const { id } = req.params;
+    const item = await db.any(queries.remove, { id });
+
+    res.json({ data: item });
   })
 );
 
