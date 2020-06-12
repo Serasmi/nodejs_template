@@ -11,27 +11,6 @@ const router = Router();
 
 const queries = getSQLQueries(__dirname);
 
-/* Get users. */
-router.get(
-  '/',
-  asyncMiddleware(async (req, res /*, next*/) => {
-    const items = await db.any(queries.getAll);
-
-    res.json({ data: items });
-  })
-);
-
-/* Get user. */
-router.get(
-  '/:id',
-  asyncMiddleware(async (req, res /*, next*/) => {
-    const { id } = req.params;
-    const item = await db.any(queries.getOne, { id });
-
-    res.json({ data: item });
-  })
-);
-
 /* Create user. */
 router.post(
   '/',
@@ -48,10 +27,59 @@ router.post(
     // TODO: how to give a default role? Might null role is equals default?!
     parameters.role = 1;
 
-    const { id, login, name, role } = await db.one(queries.add, { parameters });
+    console.log({ ...parameters });
+
+    const { id, login, name, role } = await db.one(queries.add, { ...parameters });
 
     res.status(201);
     res.json({ data: { id, login, name, role } });
+  })
+);
+
+/* Read user. */
+router.get(
+  '/:id',
+  asyncMiddleware(async (req, res /*, next*/) => {
+    const { id } = req.params;
+    const item = await db.any(queries.getOne, { id });
+
+    res.json({ data: item });
+  })
+);
+
+/* Read users. */
+router.get(
+  '/',
+  asyncMiddleware(async (req, res /*, next*/) => {
+    const items = await db.any(queries.getAll);
+
+    res.json({ data: items });
+  })
+);
+
+/* Update user. */
+router.put(
+  '/',
+  asyncMiddleware(async (req, res /* next*/) => {
+    const { id: targetId } = req.body;
+
+    if (!targetId) {
+      res.status(400);
+      res.json({ error: "Missing parameter 'id'." });
+      return;
+    }
+
+    const [entity] = await db.any(queries.getOne, { id: targetId });
+
+    if (!entity) {
+      res.status(400);
+      res.json({ error: `Entity with id: ${targetId} has not found.` });
+      return;
+    }
+
+    const { id } = await db.one(queries.update, { ...req.body });
+
+    res.json({ data: { id } });
   })
 );
 

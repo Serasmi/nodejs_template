@@ -1,1 +1,1 @@
-insert into "users" (login, name, password, role) values (${parameters:csv}) returning id;
+insert into users(${this:name}) values (${this:csv}) returning id;
