@@ -1,6 +1,6 @@
 import { IConfigItem } from '@/types/routes';
 
-export interface IAddParameters {
+export interface IUserParameters {
   login: string;
   name?: string;
   password: string;

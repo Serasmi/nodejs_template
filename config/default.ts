@@ -3,6 +3,9 @@ const defaultConfig = {
   app: {
     port: 9090, // port to launch server,
   },
+  auth: {
+    jwtSecret: '859ba29e-af11-11ea-b3de-0242ac130004', // jwt generation secret
+  },
   postgres: {
     dbConfig: {
       host: 'localhost',
@@ -13,6 +16,9 @@ const defaultConfig = {
       max: 30, // use up to 30 connections
     },
     queryLog: false,
+  },
+  session: {
+    duration: 60 * 60, // in seconds
   },
 };
 

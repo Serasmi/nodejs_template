@@ -5,7 +5,8 @@ import { asyncMiddleware, checkParamsMiddleware } from '@middleware/index';
 import { getSQLQueries } from '@routes/utils';
 
 import * as config from './config';
-import { IAddParameters } from './config';
+import { IUserParameters } from './config';
+import { ResHelper } from '@/helpers/ResHelper';
 
 const router = Router();
 
@@ -16,7 +17,7 @@ router.post(
   '/',
   checkParamsMiddleware(config.add.fields!),
   asyncMiddleware(async (req, res /*, next*/) => {
-    const parameters: Partial<IAddParameters> = config.add.fields!.reduce<Partial<IAddParameters>>(
+    const parameters: Partial<IUserParameters> = config.add.fields!.reduce<Partial<IUserParameters>>(
       (acc, field) => ({
         ...acc,
         [field.name]: req.body[field.name] || null,
@@ -31,8 +32,7 @@ router.post(
 
     const { id, login, name, role } = await db.one(queries.add, { ...parameters });
 
-    res.status(201);
-    res.json({ data: { id, login, name, role } });
+    res.status(201).json(ResHelper.success({ id, login, name, role }));
   })
 );
 
@@ -43,7 +43,7 @@ router.get(
     const { id } = req.params;
     const item = await db.any(queries.getOne, { id });
 
-    res.json({ data: item });
+    res.json(ResHelper.success(item));
   })
 );
 
@@ -53,7 +53,7 @@ router.get(
   asyncMiddleware(async (req, res /*, next*/) => {
     const items = await db.any(queries.getAll);
 
-    res.json({ data: items });
+    res.json(ResHelper.success(items));
   })
 );
 
@@ -64,16 +64,14 @@ router.put(
     const { id: targetId } = req.body;
 
     if (!targetId) {
-      res.status(400);
-      res.json({ error: "Missing parameter 'id'." });
+      res.status(400).json(ResHelper.error("Missing parameter 'id'."));
       return;
     }
 
     const [entity] = await db.any(queries.getOne, { id: targetId });
 
     if (!entity) {
-      res.status(400);
-      res.json({ error: `Entity with id: ${targetId} has not found.` });
+      res.status(400).json(ResHelper.error(`Entity with id: ${targetId} has not found.`));
       return;
     }
 
@@ -90,7 +88,7 @@ router.delete(
     const { id } = req.params;
     const item = await db.any(queries.remove, { id });
 
-    res.json({ data: item });
+    res.json(ResHelper.success(item));
   })
 );
 
