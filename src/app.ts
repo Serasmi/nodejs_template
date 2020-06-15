@@ -1,15 +1,20 @@
 import express from 'express';
 import path from 'path';
+import config from 'config';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
 import { Server } from 'http';
+import { codes } from '@burdzin/coded-error';
 
 import { pgUtils } from '@/db/postgres';
 
 import routes from '@/routes';
 import restRoutes from '@routes/rest';
 
-import { IResolve } from '@/types/app';
+import { AppError, IResolve } from '@/types/app';
+
+// get all configuration const
+const errors: Record<number, AppError> = config.get('errors');
 
 const configureApp = async (resolve: (arg0: IResolve) => void, reject: Function) => {
   const app = express();
@@ -23,6 +28,9 @@ const configureApp = async (resolve: (arg0: IResolve) => void, reject: Function)
     console.error(e);
     reject(e);
   }
+
+  // Define all http errors
+  codes.use(errors);
 
   app.use(logger('dev'));
   app.use(express.json());

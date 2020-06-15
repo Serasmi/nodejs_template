@@ -1,3 +1,5 @@
+import { errors } from './errors';
+
 /** managed by https://www.npmjs.com/package/config **/
 const defaultConfig = {
   app: {
@@ -5,6 +7,10 @@ const defaultConfig = {
   },
   auth: {
     jwtSecret: '859ba29e-af11-11ea-b3de-0242ac130004', // jwt generation secret
+  },
+  errors,
+  logger: {
+    showStack: false,
   },
   postgres: {
     dbConfig: {
