@@ -10,6 +10,7 @@ if (error) {
 
 export const config: IConfig = {
   app: {
+    currentDb: envVars.APP_CURRENT_DB,
     port: 9090,
   },
   auth: {
@@ -18,6 +19,12 @@ export const config: IConfig = {
   errors,
   logger: {
     showStack: false,
+  },
+  mongodb: {
+    dbConfig: {
+      url: envVars.MONGODB_URL,
+      database: envVars.MONGODB_DATABASE,
+    },
   },
   postgres: {
     dbConfig: {

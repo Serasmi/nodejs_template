@@ -1,7 +1,9 @@
 import type { AppError } from '@/models/error';
 import type { IConnectionParameters } from 'pg-promise/typescript/pg-subset';
+import type { Db } from '@/constants/db';
 
 export interface IAppConfig {
+  currentDb: Db;
   port: number;
 }
 
@@ -20,6 +22,15 @@ export interface IPostgresConfig {
   queryLog: boolean;
 }
 
+export interface IMongoDBConfig {
+  url: string;
+  database: string;
+}
+
+export interface IMongoConfig {
+  dbConfig: IMongoDBConfig;
+}
+
 export interface ISessionConfig {
   duration: number;
 }
@@ -29,6 +40,7 @@ export interface IConfig {
   auth: IAuthConfig;
   errors: TErrorsConfig;
   logger: ILoggerConfig;
+  mongodb: IMongoConfig;
   postgres: IPostgresConfig;
   session: ISessionConfig;
 }
