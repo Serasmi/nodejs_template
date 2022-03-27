@@ -1,11 +1,9 @@
-import config from 'config';
 import pgPromise, { IInitOptions } from 'pg-promise';
-import { IConnectionParameters } from 'pg-promise/typescript/pg-subset';
+import { config } from '@/config';
 
 import * as utils from './utils';
 
-const dbConfig: IConnectionParameters = config.get('postgres.dbConfig');
-const queryLog: boolean = config.get('postgres.queryLog');
+const { dbConfig, queryLog } = config.postgres;
 
 const initOptions: IInitOptions = {
   query: e => {
@@ -15,7 +13,7 @@ const initOptions: IInitOptions = {
     console.error('pgPromise: Unexpected error on idle client', { err, eventContext: e });
 
     if (e.cn) {
-      console.error(`pgPromise: Couldn\'t connect to DB. Connection refused by server: ${e.cn.host}:${e.cn.port}`);
+      console.error(`pgPromise: Couldn't connect to DB. Connection refused by server: ${e.cn.host}:${e.cn.port}`);
     }
   },
 };

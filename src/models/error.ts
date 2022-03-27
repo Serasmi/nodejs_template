@@ -1,5 +1,7 @@
+import type { Server } from 'http';
+
 export interface IResolve {
-  server: any;
+  server: Server;
 }
 
 export class AppError {

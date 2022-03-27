@@ -1,7 +1,7 @@
 declare module '@burdzin/coded-error' {
-  import { AppError } from '@/types/app';
+  import { AppError } from '@/models/error';
 
-  interface ICodedError {
+  export interface ICodedError {
     code?: number;
     details?: object;
     message?: string;
@@ -12,13 +12,13 @@ declare module '@burdzin/coded-error' {
     status?: number;
   }
 
-  interface ICodes {
+  export interface ICodes {
     get(code: number): ICodedError;
 
     use(errors: Record<number, AppError>);
   }
 
-  declare const codes: ICodes;
+  export const codes: ICodes;
 
   class CodedError extends Error {
     constructor(code: number, error: ICodedError);

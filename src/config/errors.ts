@@ -1,6 +1,7 @@
 import { AppError } from '@/models/error';
+import type { TErrorsConfig } from '@/config/types';
 
-export const errors: Record<number, AppError> = {
+export const errors: TErrorsConfig = {
   0: new AppError(500, 'Unknown error'),
   401: new AppError(401, 'Unauthorized'),
   403: new AppError(403, 'Forbidden'),

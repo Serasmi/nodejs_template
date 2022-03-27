@@ -1,6 +1,5 @@
 import express from 'express';
 import path from 'path';
-import config from 'config';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
 import { Server } from 'http';
@@ -11,12 +10,15 @@ import { pgUtils } from '@/db/postgres';
 import routes from '@/routes';
 import restRoutes from '@routes/rest';
 
-import { AppError, IResolve } from '@/types/app';
+import type { IResolve } from '@/models/error';
+import { config } from '@/config';
 
 // get all configuration const
-const errors: Record<number, AppError> = config.get('errors');
+const { errors } = config;
 
-const configureApp = async (resolve: (arg0: IResolve) => void, reject: Function) => {
+type TConfigureApp = (resolve: (res: IResolve) => void, reject: (e: Error) => void) => Promise<void>;
+
+const configureApp: TConfigureApp = async (resolve, reject) => {
   const app = express();
   const server = new Server(app);
 
@@ -26,7 +28,7 @@ const configureApp = async (resolve: (arg0: IResolve) => void, reject: Function)
     console.log(`Connected to PostgreSQL server ${host}:${port}`);
   } catch (e) {
     console.error(e);
-    reject(e);
+    reject(e as Error);
   }
 
   // Define all http errors

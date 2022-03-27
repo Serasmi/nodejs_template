@@ -1,8 +1,10 @@
 import jwt from 'jsonwebtoken';
-import config from 'config';
+import { config } from '@/config';
 
-const expiresIn: number = config.get('session.duration');
-const jwtSecret: string = config.get('auth.jwtSecret');
+const {
+  session: { duration: expiresIn },
+  auth: { jwtSecret },
+} = config;
 
 interface IParams {
   login: string;
