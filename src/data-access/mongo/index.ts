@@ -9,15 +9,15 @@ const url = mongoConfig.url;
 const dbName = mongoConfig.database;
 const client = new MongoClient(url);
 
-let _db: Db;
+let dbInstance: Db;
 
 const makeDb = async (): Promise<Db> => {
-  if (!_db) {
+  if (!dbInstance) {
     await client.connect();
-    _db = client.db(dbName);
+    dbInstance = client.db(dbName);
   }
 
-  return Promise.resolve(_db);
+  return dbInstance;
 };
 
 const db: IDatabase = {
