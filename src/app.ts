@@ -5,31 +5,28 @@ import logger from 'morgan';
 import { Server } from 'http';
 import { codes } from '@burdzin/coded-error';
 
-import { pgUtils } from '@/db/postgres';
+// import { pgUtils } from '@/db/postgres';
 
-import routes from '@/routes';
-import restRoutes from '@routes/rest';
+import rootRouter from '@/routes';
+import apiRouter from '@routes/api';
 
-import type { IResolve } from '@/models/error';
 import { config } from '@/config';
 
 // get all configuration const
 const { errors } = config;
 
-type TConfigureApp = (resolve: (res: IResolve) => void, reject: (e: Error) => void) => Promise<void>;
+export interface IApp {
+  server: Server;
+}
 
-const configureApp: TConfigureApp = async (resolve, reject) => {
+const startApp = async (): Promise<IApp> => {
   const app = express();
   const server = new Server(app);
 
   // Check connection to DB
-  try {
-    const { host, port } = await pgUtils.checkConnection();
-    console.log(`Connected to PostgreSQL server ${host}:${port}`);
-  } catch (e) {
-    console.error(e);
-    reject(e as Error);
-  }
+  // TODO: should I check connect to DB here?
+  // const { host, port } = await pgUtils.checkConnection();
+  // console.log(`Connected to PostgreSQL server ${host}:${port}`);
 
   // Define all http errors
   codes.use(errors);
@@ -40,11 +37,11 @@ const configureApp: TConfigureApp = async (resolve, reject) => {
   app.use(cookieParser());
   app.use(express.static(path.join(__dirname, 'public')));
 
-  app.use('/', routes);
+  // Routes
+  app.use('/', rootRouter);
+  app.use('/api', apiRouter);
 
-  app.use('/api/v1', restRoutes);
-
-  resolve({ server });
+  return { server };
 };
 
-export default new Promise(configureApp);
+export default startApp;

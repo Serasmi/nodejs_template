@@ -2,8 +2,8 @@ import { Router } from 'express';
 
 const router = Router();
 
-router.get('/healthcheck', (req, res) => {
-  res.status(200).send('App is working');
+router.get('/', (req, res, next) => {
+  res.status(200).send([]);
 });
 
 export default router;

@@ -1,7 +1,7 @@
 import 'dotenv/config';
 
 import ip from 'ip';
-import appPromise from './app';
+import startApp, { IApp } from './app';
 import { config } from '@/config';
 
 const {
@@ -10,8 +10,14 @@ const {
 
 const address = ip.address();
 
-appPromise
-  .then(({ server }) => server.listen(port, () => console.log(`> Listening at http://${address}:${port}\n`)))
+const handleAppStarted = ({ server }: IApp) => {
+  server.listen(port, () => {
+    console.log(`> Listening at http://${address}:${port}\n`);
+  });
+};
+
+startApp()
+  .then(handleAppStarted)
   .catch(e => {
     console.error('Can not start server');
     throw e;
