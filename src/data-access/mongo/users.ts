@@ -1,12 +1,12 @@
 import type { Db } from 'mongodb';
-import type { IMakeUserDb } from '@/data-access/types';
+import type { IUserDb } from '@/data-access/types';
 import { IDBUser, IUser } from '@/data-access/mongo/types';
 
 interface IMakeUserDbParams {
   makeDb: () => Promise<Db>;
 }
 
-export const makeUsersDb = ({ makeDb }: IMakeUserDbParams): Readonly<IMakeUserDb> => {
+export const makeUsersDb = ({ makeDb }: IMakeUserDbParams): Readonly<IUserDb> => {
   const findAll = async (): Promise<IUser[]> => {
     const db: Db = await makeDb();
     const result = await db.collection<IDBUser>('users').find();

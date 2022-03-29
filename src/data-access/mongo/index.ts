@@ -21,7 +21,7 @@ const makeDb = async (): Promise<Db> => {
 };
 
 const db: IDatabase = {
-  userDb: makeUsersDb({ makeDb }),
+  usersDb: makeUsersDb({ makeDb }),
 };
 
 export default db;

@@ -1,7 +1,7 @@
 import type { IDatabase } from '@/data-access/types';
 
 const db: IDatabase = {
-  userDb: (() => {
+  usersDb: (() => {
     // TODO: implement logic
     return Object.freeze({
       findAll: () => Promise.resolve([]),

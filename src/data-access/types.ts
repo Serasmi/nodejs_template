@@ -1,9 +1,9 @@
 import { IUser } from '@/data-access/mongo/types';
 
 export interface IDatabase {
-  userDb: Readonly<IMakeUserDb>;
+  usersDb: Readonly<IUserDb>;
 }
 
-export interface IMakeUserDb {
+export interface IUserDb {
   findAll: () => Promise<IUser[]>;
 }
