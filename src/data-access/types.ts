@@ -1,9 +1,11 @@
-import { IUser } from '@/data-access/mongo/types';
+import { IDBUser, IUser } from '@/data-access/mongo/types';
 
 export interface IDatabase {
-  usersDb: Readonly<IUserDb>;
+  usersDb: Readonly<IUserDatabase>;
 }
 
-export interface IUserDb {
+export interface IUserDatabase {
   findAll: () => Promise<IUser[]>;
+  findById: (id: string) => Promise<IDBUser>;
+  remove: (user: IDBUser) => Promise<IUser>;
 }

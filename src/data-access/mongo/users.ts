@@ -1,12 +1,12 @@
 import type { Db } from 'mongodb';
-import type { IUserDb } from '@/data-access/types';
+import type { IUserDatabase } from '@/data-access/types';
 import { IDBUser, IUser } from '@/data-access/mongo/types';
 
 interface IMakeUserDbParams {
   makeDb: () => Promise<Db>;
 }
 
-export const makeUsersDb = ({ makeDb }: IMakeUserDbParams): Readonly<IUserDb> => {
+export const makeUsersDb = ({ makeDb }: IMakeUserDbParams): Readonly<IUserDatabase> => {
   const findAll = async (): Promise<IUser[]> => {
     const db: Db = await makeDb();
     const result = await db.collection<IDBUser>('users').find();
@@ -16,14 +16,22 @@ export const makeUsersDb = ({ makeDb }: IMakeUserDbParams): Readonly<IUserDb> =>
     }));
   };
 
+  const findById = async (): Promise<IDBUser> => {
+    // TODO: implement logic here
+  };
+
+  const remove = async (): Promise<IUser> => {
+    // TODO: implement logic here
+  };
+
   return Object.freeze({
     findAll,
-    /*findByHash,
+    // findByHash,
     findById,
-    findByPostId,
-    findReplies,
-    insert,
+    // findByPostId,
+    // findReplies,
+    // insert,
     remove,
-    update,*/
+    // update,
   });
 };
