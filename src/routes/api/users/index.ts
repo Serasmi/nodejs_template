@@ -1,13 +1,17 @@
 import { Router } from 'express';
-import { usersControllerFactory } from '@/controllers/users';
 
-import DB from '../../../data-access';
+import { usersControllerFactory } from '@/controllers/users';
 import { httpResponseFactory } from '@routes/utils';
 
-const router = Router();
+import type { IUserDb } from '@/data-access/types';
 
-const usersController = usersControllerFactory(DB.usersDb);
+const makeUsersRouter = (usersDb: IUserDb) => {
+  const router = Router();
+  const { getUsers } = usersControllerFactory(usersDb);
 
-router.get('/', httpResponseFactory(usersController.getUsers));
+  router.get('/', httpResponseFactory(getUsers));
 
-export default router;
+  return router;
+};
+
+export default makeUsersRouter;

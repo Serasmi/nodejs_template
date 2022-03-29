@@ -4,13 +4,12 @@ import cookieParser from 'cookie-parser';
 import logger from 'morgan';
 import { Server } from 'http';
 import { codes } from '@burdzin/coded-error';
-
-// import { pgUtils } from '@/db/postgres';
+import DB from './data-access';
 
 import rootRouter from '@/routes';
-import apiRouter from '@routes/api';
 
 import { config } from '@/config';
+import makeApiRouter from '@routes/api';
 
 // get all configuration const
 const { errors } = config;
@@ -39,7 +38,7 @@ const startApp = async (): Promise<IApp> => {
 
   // Routes
   app.use('/', rootRouter);
-  app.use('/api', apiRouter);
+  app.use('/api', makeApiRouter(DB));
 
   return { server };
 };

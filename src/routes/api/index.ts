@@ -1,11 +1,17 @@
 import { Router } from 'express';
 
 import articlesRouter from './articles';
-import usersRouter from './users';
+import makeUsersRouter from './users';
 
-const router = Router();
+import type { IDatabase } from '@/data-access/types';
 
-router.use('/articles', articlesRouter);
-router.use('/users', usersRouter);
+const makeApiRouter = (db: IDatabase) => {
+  const router = Router();
 
-export default router;
+  router.use('/articles', articlesRouter);
+  router.use('/users', makeUsersRouter(db.usersDb));
+
+  return router;
+};
+
+export default makeApiRouter;
